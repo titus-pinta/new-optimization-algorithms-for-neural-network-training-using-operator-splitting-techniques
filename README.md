@@ -3,7 +3,11 @@
 Aici vine abstractul dar eu nu il am inca
 ## Requrements
 + pytorch 
++ numpy
++ matplotlib
++ seaborn
 + dill
+
 pip install -r reqirements.txt
 
 
