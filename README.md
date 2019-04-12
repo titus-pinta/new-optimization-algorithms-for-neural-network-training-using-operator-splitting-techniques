@@ -9,5 +9,15 @@ Aici vine abstractul dar eu nu il am inca
 + dill
 
 pip install -r reqirements.txt
+### Help
+```bash
+python main.py --help
+```
 
+```bash
+python main.py --optimhelp
+```
 
+```bash
+python main.py --losshelp
+```
