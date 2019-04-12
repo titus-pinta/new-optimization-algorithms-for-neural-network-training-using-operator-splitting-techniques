@@ -1,7 +1,9 @@
 # NEW OPTIMIZATION ALGORITHMS FOR NEURAL NETWORK TRAINING USING OPERATOR SPLITTING TECHNIQUES
-## Abstract
+##Description
+This is the GitHub repository for the article [ NEW OPTIMIZATION ALGORITHMS FOR NEURAL NETWORK TRAINING USING OPERATOR SPLITTING TECHNIQUES](/google.com)
+##Abstract
 Aici vine abstractul dar eu nu il am inca
-## Requrements
+##Requrements
 + pytorch 
 + numpy
 + matplotlib
@@ -9,7 +11,7 @@ Aici vine abstractul dar eu nu il am inca
 + dill
 
 pip install -r reqirements.txt
-### Help
+##Help
 ```bash
 python main.py --help
 ```
@@ -21,3 +23,6 @@ python main.py --optimhelp
 ```bash
 python main.py --losshelp
 ```
+
+##Usage
+
