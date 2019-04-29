@@ -16,14 +16,10 @@ from .rprop import Rprop
 from .rmsprop import RMSprop
 from .optimizer import Optimizer
 from .lbfgs import LBFGS
-from .a3 import A3
-from .a5 import A5
-from .a11 import A11
-from .a3rms import A3RMS
-#from .a3titus import A3Titus
-from .a3ada import A3Ada
-from .a5rms import A5RMS
-from .a5ada import A5Ada
+from .ssa1 import SSA1
+from .ssa2 import SSA2
+from .ssa1-ada import SSA1-ADA
+from .ssa2-ada import SSA2-ADA
 from . import lr_scheduler
 
 del adadelta
@@ -37,11 +33,8 @@ del rprop
 del rmsprop
 del optimizer
 del lbfgs
-del a3
-del a5
-del a11
-del a3rms
-del a3ada
-del a5rms
-del a5ada
+del ssa1
+del ssa2
+del ssa1-ada
+del ssa1-ada
 #del a3titus
