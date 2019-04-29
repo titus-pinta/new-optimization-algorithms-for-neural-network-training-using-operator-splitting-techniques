@@ -44,15 +44,15 @@ optional arguments:
   --epochs N           number of epochs to train (default: 30)
   --lr LR              learning rate (default: 0.00001)
   --momentum M         SGD momentum (default: 0.0)
-  --q Q                q parameter for A5 algorithm (default: 0.01)
-  --k K                k parameter for A3/A5 algorithm (default: 2)
+  --q Q                q parameter for SSA1 algorithm (default: 2)
+  --k K                k parameter for SSA1/SSA2 algorithm (default: 2)
   --alpha A            alpha parameter for the RMS running average (default:
                        0.99)
   --eps E              eps parameter for the RMS division by 0 correction
                        (default: 1e-8)
   --optim O            Optimiser to use (default: SGD)
   --loss L             Loss function (default: nll for MNIST, cross-entropy
-                       for cifar10
+                       for cifar10)
   --no-cuda            disables CUDA training
   --seed S             random seed (default: 1)
   --log-interval N     how many batches to wait before logging training status
