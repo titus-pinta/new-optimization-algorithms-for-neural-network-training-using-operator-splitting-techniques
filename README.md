@@ -13,6 +13,12 @@ In the following paper we present a new type of optimization algorithms adapted 
 + dill
 
 pip install -r requirements.txt
+## Usage
+
+```bash
+python main.py --stoch --optim SSA1 --lr 0.1
+```
+runs ssa1 on the MNIST dataset, computing the gradient and taking a step for each mini batch
 ## Help
 ```bash
 python main.py --help
@@ -97,15 +103,6 @@ SmoothL1Loss
 SoftMarginLoss
 TripletMarginLoss
 ```
-## Usage
-
-```bash
-python main.py --stoch --optim SSA1 --lr 0.1
-```
-runs ssa1 on the MNIST dataset, computing the gradient and taking a step for each mini batch
-
-
-## Replicate Results
 
 ## View Saved Results
 ```python

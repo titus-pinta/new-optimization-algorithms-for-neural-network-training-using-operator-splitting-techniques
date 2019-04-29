@@ -98,11 +98,9 @@ def main():
     #create model
     if args.cifar10:
         model = models.cifar10.GoogLeNet()
-        model.load_state_dict(torch.load('cifar10.init'))
         print('Using GoogLeNet model')
     else:
         model = models.mnist.Net()
-        model.load_state_dict(torch.load('mnist.init'))
         print('Using MNIST model')
     print("Initial model: {}".format(str(model)))
     train_correct = []
