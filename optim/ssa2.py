@@ -2,13 +2,13 @@ import torch
 from .optimizer import Optimizer, required
 
 
-class A5(Optimizer):
+class SSA2(Optimizer):
 
     def __init__(self, params, lr=required, k=5, q=5):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         defaults = dict(lr=lr, k=k, q=q)
-        super(A5, self).__init__(params, defaults)
+        super(SSA2, self).__init__(params, defaults)
 
         self.state['n_iter'] = 0
 
@@ -19,7 +19,7 @@ class A5(Optimizer):
 
 
     def __setstate__(self, state):
-        super(A5, self).__setstate__(state)
+        super(SSA2, self).__setstate__(state)
 
     def step(self, closure):
         self.state['n_iter'] += 1
