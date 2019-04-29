@@ -16,7 +16,7 @@ pip install -r requirements.txt
 python main.py --help
 ```
 Output:
-```bash
+```
 usage: main.py [-h] [--batch-size N] [--test-batch-size N] [--epochs N]
                [--lr LR] [--momentum M] [--q Q] [--k K] [--alpha A] [--eps E]
                [--optim O] [--loss L] [--no-cuda] [--seed S]
@@ -54,7 +54,7 @@ optional arguments:
 python main.py --optimhelp
 ```
 Output:
-```bash
+```
 ASGD
 Adadelta
 Adagrad
@@ -73,7 +73,7 @@ SparseAdam
 python main.py --losshelp
 ```
 Output:
-```bash
+```
 AdaptiveLogSoftmaxWithLoss
 BCELoss
 BCEWithLogitsLoss
