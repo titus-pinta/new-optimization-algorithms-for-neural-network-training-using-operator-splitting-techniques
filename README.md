@@ -15,6 +15,7 @@ pip install -r requirements.txt
 ```bash
 python main.py --help
 ```
+Output:
 ```bash
 usage: main.py [-h] [--batch-size N] [--test-batch-size N] [--epochs N]
                [--lr LR] [--momentum M] [--q Q] [--k K] [--alpha A] [--eps E]
@@ -52,11 +53,48 @@ optional arguments:
 ```bash
 python main.py --optimhelp
 ```
-
+Output:
+```bash
+ASGD
+Adadelta
+Adagrad
+Adam
+Adamax
+LBFGS
+Optimizer
+RMSprop
+Rprop
+SGD
+SSA1
+SSA2
+SparseAdam
+```
 ```bash
 python main.py --losshelp
 ```
-
+Output:
+```bash
+AdaptiveLogSoftmaxWithLoss
+BCELoss
+BCEWithLogitsLoss
+CTCLoss
+CosineEmbeddingLoss
+CrossEntropyLoss
+HingeEmbeddingLoss
+KLDivLoss
+L1Loss
+MSELoss
+MarginRankingLoss
+MultiLabelMarginLoss
+MultiLabelSoftMarginLoss
+MultiMarginLoss
+NLLLoss
+NLLLoss2d
+PoissonNLLLoss
+SmoothL1Loss
+SoftMarginLoss
+TripletMarginLoss
+```
 ## Usage
 
 ```bash
