@@ -2,6 +2,7 @@
 ## Description
 This is the GitHub repository for the article [ NEW OPTIMIZATION ALGORITHMS FOR NEURAL NETWORK TRAINING USING OPERATOR SPLITTING TECHNIQUES](/google.com)
 
+![picture](img/fig.png)
 <figure>
 	<img style="display: block;" src="img/fig.png">
 	<figcaption>Results on the CIFAR10 Dataset</figcaption>
