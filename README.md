@@ -19,6 +19,10 @@ pip install -r requirements.txt
 python main.py --stoch --optim SSA1 --lr 0.1
 ```
 runs ssa1 on the MNIST dataset, computing the gradient and taking a step for each mini batch
+```bash
+pthon main.py --fash --stoch --epochs 5 --lr 0.5 --k 1 --optim SSA2
+```
+runs ssa2 on the MNIST Fashion Dataset for 5 epochs
 ## Help
 ```bash
 python main.py --help

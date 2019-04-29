@@ -1,4 +1,3 @@
-#! /usr/python-pytorch/bin/python
 import torch
 import torch.nn.functional as F
 
@@ -16,15 +15,6 @@ from test import *
 from train import *
 
 import view
-import pdb
-
-#TODO bug list
-# multi loss
-# A3RMS A5RMS
-# A11 A11RMS
-# lossu nu oscileaza
-# alea cu adadelta
-# salveaza poze
 
 
 def main():
@@ -40,17 +30,17 @@ def main():
                         help='learning rate (default: 0.00001)')
     parser.add_argument('--momentum', type=float, default=0.0, metavar='M',
                         help='SGD momentum (default: 0.0)')
-    parser.add_argument('--q', type=float, default=0.1, metavar='Q',
-                        help='q parameter for A5 algorithm (default: 0.01)')
+    parser.add_argument('--q', type=float, default=2, metavar='Q',
+                        help='q parameter for SSA1 algorithm (default: 2)')
     parser.add_argument('--k', type=float, default=2, metavar="K",
-                        help='k parameter for A3/A5 algorithm (default: 2)')
+                        help='k parameter for SSA1/SSA2 algorithm (default: 2)')
     parser.add_argument('--alpha', type=float, default=0.99, metavar='A',
                         help='alpha parameter for the RMS running average (default: 0.99)')
     parser.add_argument('--eps', type=float, default=1e-8, metavar='E',
                         help='eps parameter for the RMS division by 0 correction (default: 1e-8)')
     parser.add_argument('--optim', default='SGD', help='Optimiser to use (default: SGD)', metavar='O')
     parser.add_argument('--loss', default=None, metavar='L', help=
-                        'Loss function (default: nll for MNIST, cross-entropy for cifar10')
+                        'Loss function (default: nll for MNIST, cross-entropy for cifar10)')
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='disables CUDA training')
     parser.add_argument('--seed', type=int, default=1, metavar='S',
