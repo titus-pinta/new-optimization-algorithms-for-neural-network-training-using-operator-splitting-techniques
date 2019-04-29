@@ -2,13 +2,13 @@ import torch
 from .optimizer import Optimizer, required
 
 
-class SSA2_Ada(Optimizer):
+class SSA2Ada(Optimizer):
 
     def __init__(self, params, lr=required, k=5, q=5, rho=0.9, eps=1e-6):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         defaults = dict(lr=lr, k=k, q=q, rho=rho, eps=eps)
-        super(SSA2_Ada, self).__init__(params, defaults)
+        super(SSA2Ada, self).__init__(params, defaults)
 
         self.state['n_iter'] = 0
 
@@ -21,7 +21,7 @@ class SSA2_Ada(Optimizer):
 
 
     def __setstate__(self, state):
-        super(SSA2_Ada, self).__setstate__(state)
+        super(SSA2Ada, self).__setstate__(state)
 
     def step(self, closure):
         self.state['n_iter'] += 1

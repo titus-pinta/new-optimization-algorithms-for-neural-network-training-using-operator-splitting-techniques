@@ -18,8 +18,8 @@ from .optimizer import Optimizer
 from .lbfgs import LBFGS
 from .ssa1 import SSA1
 from .ssa2 import SSA2
-from .ssa1_ada import SSA1_Ada
-from .ssa2_ada import SSA2_Ada
+from .ssa1_ada import SSA1Ada
+from .ssa2_ada import SSA2Ada
 from . import lr_scheduler
 
 del adadelta
