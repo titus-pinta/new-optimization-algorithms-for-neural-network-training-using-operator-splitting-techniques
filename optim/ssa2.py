@@ -43,7 +43,7 @@ class SSA2(Optimizer):
                     continue
                 state = self.state[p]
                 d_p = p.grad.data
-                state['v'] = state['v'].mul((1 - lr * beta) ** q).sub(d_p.mul(lr * beta ** k))
                 state['u'].add_(p.data.sub(state['u']).mul((1 - lr * beta) / beta).sub(d_p.mul(lr ** 2)))
+                state['v'] = state['v'].mul((1 - lr * beta) ** q).sub(d_p.mul(lr * beta ** k))
 
         return loss

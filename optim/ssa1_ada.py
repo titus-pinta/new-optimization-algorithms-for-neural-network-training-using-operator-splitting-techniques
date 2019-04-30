@@ -53,7 +53,7 @@ class SSA1Ada(Optimizer):
                 delta = state['delta_avg'].add(eps).sqrt_().div_(std)
                 lr = delta.mul(group['lr'])
                 d_p = p.grad.data
-                state['v'] = state['v'].mul(1 - lr * beta).sub(d_p.mul(lr)).mul(beta ** k)
                 state['u'].add_(p.data.sub(state['u']).mul((1 - lr * beta) * beta).sub(d_p.mul(lr ** 2)))
+                state['v'] = state['v'].mul(1 - lr * beta).sub(d_p.mul(lr)).mul(beta ** k)
 
         return loss
