@@ -14,7 +14,7 @@ class SSA2Ada(Optimizer):
 
         for group in self.param_groups:
             for p in group['params']:
-                self.state[p]['u'] = p.data
+                self.state[p]['theta'] = p.data
                 self.state[p]['v'] = torch.zeros_like(p.data)
                 self.state[p]['avg'] = torch.zeros_like(p.data)
                 self.state[p]['delta_avg'] = torch.zeros_like(p.data)
@@ -25,7 +25,7 @@ class SSA2Ada(Optimizer):
 
     def step(self, closure):
         self.state['n_iter'] += 1
-        beta = self.state['n_iter'] / (self.state['n_iter'] + 3)
+        beta = self.state['n_iter'] / (self.state['n_iter'] + 3) #update inertial parameter
 
         for group in self.param_groups:
             rho = group['rho']
@@ -34,11 +34,12 @@ class SSA2Ada(Optimizer):
                 if p.grad is None:
                     continue
                 state = self.state[p]
-                state['avg'].mul_(rho).addcmul_(1 - rho, p.grad.data, p.grad.data)
-                std = state['avg'].add(eps).sqrt_()
-                delta = state['delta_avg'].add(eps).sqrt_().div_(std).mul(p.grad.data)
-                lr = delta.mul(group['lr'])
-                p.data = state['u'].add(state['v'].mul(lr * beta))
+                state['avg'] = rho * state['avg'] + (1 - rho) * p.grad.data ** 2 #accumulate gradient
+                std = torch.sqrt(state['avg'] + eps) #root mean square of f
+                delta = torch.sqrt(state['delta_avg'] + eps) / (std) * p.grad.data #compute update
+                lr = delta * group['lr'] #compute adaptative step size
+                state['delta_avg'] = rho * state['delta_avg'] + (1 - rho) * delta ** 2 #accumultate updates
+                p.data = state['theta'] + lr * beta * state['v'] #compute aditional iteration
 
         loss = closure()
         for group in self.param_groups:
@@ -51,11 +52,10 @@ class SSA2Ada(Optimizer):
                 if p.grad is None:
                     continue
                 state = self.state[p]
-                std = state['avg'].add(eps).sqrt_()
-                delta = state['delta_avg'].add(eps).sqrt_().div_(std)
-                lr = delta.mul(group['lr'])
+                std = torch.sqrt(state['avg'] + eps)
+                delta = torch.sqrt(state['delta_avg'] + eps) / std #compute adaptative stepsize
+                lr = delta * group['lr']
                 d_p = p.grad.data
-                state['v'] = state['v'].mul((1 - lr * beta) ** q).sub(d_p.mul(lr * beta ** k))
-                state['u'].add_(p.data.sub(state['u']).mul((1 - lr * beta) / beta).sub(d_p.mul(lr ** 2)))
-
+                state['theta'] = state['theta'] + lr * (1 - lr * beta) * state['v'] #update information
+                state['v'] = beta ** k *((1 - lr * beta) ** q * state['v'] - lr * d_p) #update velocity
         return loss
