@@ -16,10 +16,8 @@ from .rprop import Rprop
 from .rmsprop import RMSprop
 from .optimizer import Optimizer
 from .lbfgs import LBFGS
-from .ssa1 import SSA1
-from .ssa2 import SSA2
-from .ssa1_ada import SSA1Ada
-from .ssa2_ada import SSA2Ada
+from .ssa import SSA
+from .ssa_ada import SSAAda
 from . import lr_scheduler
 
 del adadelta
@@ -33,7 +31,5 @@ del rprop
 del rmsprop
 del optimizer
 del lbfgs
-del ssa1
-del ssa2
-del ssa1_ada
-del ssa2_ada
+del ssa
+del ssa_ada

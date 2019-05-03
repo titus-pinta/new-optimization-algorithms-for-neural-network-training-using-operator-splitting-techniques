@@ -1,14 +1,15 @@
 import torch
 from .optimizer import Optimizer, required
+import pdb
 
+class SSAAda(Optimizer):
 
-class SSA2Ada(Optimizer):
-
-    def __init__(self, params, lr=required, k=5, q=5, rho=0.9, eps=1e-6):
+    def __init__(self, params, lr=required, k=5, rho=0.9, eps=1e-6):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
-        defaults = dict(lr=lr, k=k, q=q, rho=rho, eps=eps)
-        super(SSA2Ada, self).__init__(params, defaults)
+
+        defaults = dict(lr=lr, k=k, rho=rho, eps=eps)
+        super(SSAAda, self).__init__(params, defaults)
 
         self.state['n_iter'] = 0
 
@@ -19,9 +20,8 @@ class SSA2Ada(Optimizer):
                 self.state[p]['avg'] = torch.zeros_like(p.data)
                 self.state[p]['delta_avg'] = torch.zeros_like(p.data)
 
-
     def __setstate__(self, state):
-        super(SSA2Ada, self).__setstate__(state)
+        super(SSAAda, self).__setstate__(state)
 
     def step(self, closure):
         self.state['n_iter'] += 1
@@ -43,9 +43,6 @@ class SSA2Ada(Optimizer):
 
         loss = closure()
         for group in self.param_groups:
-            lr = group['lr']
-            k = group['k']
-            q = group['q']
             k = group['k']
             eps = group['eps']
             for p in group['params']:
@@ -56,6 +53,7 @@ class SSA2Ada(Optimizer):
                 delta = torch.sqrt(state['delta_avg'] + eps) / std #compute adaptative stepsize
                 lr = delta * group['lr']
                 d_p = p.grad.data
-                state['theta'] = state['theta'] + lr * (1 - lr * beta) * state['v'] #update information
-                state['v'] = beta ** k *((1 - lr * beta) ** q * state['v'] - lr * d_p) #update velocity
+                state['v'] = beta ** k * ((1 - lr * beta) * state['v'] - lr * d_p)
+                state['theta'] = state['theta'] + (1 - lr * beta) / beta * (p.data - state['theta']) - lr ** 2 * d_p
+
         return loss
