@@ -30,10 +30,10 @@ python main.py --help
 Output:
 ```
 usage: main.py [-h] [--batch-size N] [--test-batch-size N] [--epochs N]
-               [--lr LR] [--momentum M] [--q Q] [--k K] [--alpha A] [--eps E]
+               [--lr LR] [--momentum M] [--k K] [--rho R] [--eps E]
                [--optim O] [--loss L] [--no-cuda] [--seed S]
-               [--log-interval N] [--stoch] [--cifar10] [--fash] [--optimhelp]
-               [--losshelp]
+               [--log-interval N] [--stoch] [--cifar10] [--fash] [--imdb]
+               [--optimhelp] [--losshelp]
 
 PyTorch MNIST Example
 
@@ -44,11 +44,10 @@ optional arguments:
   --epochs N           number of epochs to train (default: 30)
   --lr LR              learning rate (default: 0.00001)
   --momentum M         SGD momentum (default: 0.0)
-  --q Q                q parameter for SSA1 algorithm (default: 2)
-  --k K                k parameter for SSA1/SSA2 algorithm (default: 2)
-  --alpha A            alpha parameter for the RMS running average (default:
-                       0.99)
-  --eps E              eps parameter for the RMS division by 0 correction
+  --k K                k parameter for SSA algorithm (default: 2)
+  --rho R              alpha parameter for the Ada based running average
+                       (default: 0.9)
+  --eps E              eps parameter for the Ada division by 0 correction
                        (default: 1e-8)
   --optim O            Optimiser to use (default: SGD)
   --loss L             Loss function (default: nll for MNIST, cross-entropy
@@ -59,6 +58,7 @@ optional arguments:
   --stoch              use stochastic gradient computation
   --cifar10            Use Cifar10 not MNIST
   --fash               Use MNIST fashion not MNIST
+  --imdb               Use IMDB bot MNIST
   --optimhelp          Print optim options
   --losshelp           Print loss options
 ```

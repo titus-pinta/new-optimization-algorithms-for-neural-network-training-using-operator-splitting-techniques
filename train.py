@@ -84,21 +84,29 @@ def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
                 data, target = batch
                 data, target = data.to(device), target.to(device)
                 output = model(data)
+                if scatter:
+                    # TODO scatter
+                    target.scatter_(0, torch.Tensor([0]), 10)
+
+                loss = loss_function(output, target)
+                loss.backward()
+                train_loss += loss.item()
+                num_loss += 1
+                pred = output.argmax(dim=1, keepdim=True)
+                train_correct += pred.eq(target.view_as(pred)).sum().item()
             else:
                 text, text_lengths = batch.text
-                target = batch.label
-                output = model(text, text_lengths).squeeze(1)
+                predictions = model(text, text_lengths).squeeze(1)
+                loss = loss_function(predictions, batch.label)
+                loss.backward()
 
-            if scatter:
-                # TODO scatter
-                target.scatter_(0, torch.Tensor([0]), 10)
+                def correct_preds(preds, y):
+                    rounded_preds = torch.round(torch.sigmoid(preds))
+                    correct = (rounded_preds == y).float()
+                    acc = correct.sum()
+                    return acc
+                train_correct += correct_preds(predictions, batch.label)
 
-            loss = loss_function(output, target)
-            loss.backward()
-            train_loss += loss.item()
-            num_loss += 1
-            pred = output.argmax(dim=1, keepdim=True)
-            train_correct += pred.eq(target.view_as(pred)).sum().item()
             if batch_idx % args.log_interval == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                     epoch, batch_idx * len(data), len(train_loader.dataset),
