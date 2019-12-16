@@ -6,12 +6,12 @@ def train_stoch(args, model, device, loss_function, train_loader, optimizer, epo
                 result_loss, scatter):
 
     model.train()
-    train_loss = 0;
-    train_correct = 0;
+    train_loss = 0
+    train_correct = 0
     num_loss = 0
 
-
-    for batch_idx, (data, target) in enumerate(train_loader):
+    for batch_idx, batch in enumerate(train_loader):
+        data, target = batch
         loss = None
 
         def closure():
@@ -23,20 +23,33 @@ def train_stoch(args, model, device, loss_function, train_loader, optimizer, epo
             nonlocal num_loss
 
             optimizer.zero_grad()
-            data, target = data.to(device), target.to(device)
-            optimizer.zero_grad()
-            output = model(data)
+            if not args.imdb:
+                data, target = data.to(device), target.to(device)
+                optimizer.zero_grad()
+                output = model(data)
+                if scatter:
+                    target.scatter_(10)
 
-            if scatter:
-                target.scatter_(10)
+                loss = loss_function(output, target)
+                loss.backward()
+                train_loss += loss.item()
+                num_loss += 1
+                pred = output.argmax(dim=1, keepdim=True)
+                train_correct += pred.eq(target.view_as(pred)).sum().item()
+                return loss
+            else:
+                optimizer.zero_grad()
+                text, text_lengths = batch.text
+                predictions = model(text, text_lengths).squeeze(1)
+                loss = loss_function(predictions, batch.label)
+                loss.backward()
 
-            loss = loss_function(output, target)
-            loss.backward()
-            train_loss += loss.item()
-            num_loss += 1
-            pred = output.argmax(dim=1, keepdim=True)
-            train_correct  += pred.eq(target.view_as(pred)).sum().item()
-            return loss
+                def correct_preds(preds, y):
+                    rounded_preds = torch.round(torch.sigmoid(preds))
+                    correct = (rounded_preds == y).float()
+                    acc = correct.sum()
+                    return acc
+                train_correct += correct_preds(predictions, batch.label)
 
         optimizer.step(closure)
 
@@ -47,6 +60,7 @@ def train_stoch(args, model, device, loss_function, train_loader, optimizer, epo
 
     result_loss.append(train_loss / num_loss)
     result_correct.append(train_correct / len(train_loader.dataset))
+
 
 def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
                     epoch, result_correct, result_loss, scatter):
@@ -65,12 +79,18 @@ def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
         print('\nNumber of closure calls: {}\n'.format(closure_calls))
         optimizer.zero_grad()
 
-        for batch_idx, (data, target) in enumerate(train_loader):
-            data, target = data.to(device), target.to(device)
-            output = model(data)
+        for batch_idx, batch in enumerate(train_loader):
+            if not args.imdb:
+                data, target = batch
+                data, target = data.to(device), target.to(device)
+                output = model(data)
+            else:
+                text, text_lengths = batch.text
+                target = batch.label
+                output = model(text, text_lengths).squeeze(1)
 
             if scatter:
-                #TODO scatter
+                # TODO scatter
                 target.scatter_(0, torch.Tensor([0]), 10)
 
             loss = loss_function(output, target)
@@ -78,7 +98,7 @@ def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
             train_loss += loss.item()
             num_loss += 1
             pred = output.argmax(dim=1, keepdim=True)
-            train_correct  += pred.eq(target.view_as(pred)).sum().item()
+            train_correct += pred.eq(target.view_as(pred)).sum().item()
             if batch_idx % args.log_interval == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                     epoch, batch_idx * len(data), len(train_loader.dataset),
