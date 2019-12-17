@@ -81,8 +81,8 @@ def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
         optimizer.zero_grad()
 
         for batch_idx, batch in enumerate(train_loader):
+            data, target = batch
             if not args.imdb:
-                data, target = batch
                 data, target = data.to(device), target.to(device)
                 output = model(data)
                 if scatter:
