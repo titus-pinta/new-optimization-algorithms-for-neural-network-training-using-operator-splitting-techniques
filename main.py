@@ -165,7 +165,7 @@ def main():
         train(args, model, device, loss_function, train_loader, optimizer, epoch, train_correct,
               train_loss, scatter)
         test(args, model, device, test_loader,
-             test_correct, test_loss, scatter)
+             test_correct, test_loss, scatter, loss_function)
 
     save_result = {'optim': optimizer, 'model': model.state_dict, 'args': args,
                    'train_loss': train_loss, 'test_loss': test_loss,

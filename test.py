@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 
-def test(args, model, device, test_loader, result_correct, result_loss, scatter):
+def test(args, model, device, test_loader, result_correct, result_loss, scatter, loss_function):
     model.eval()
     test_loss = 0
     correct = 0
@@ -30,7 +30,8 @@ def test(args, model, device, test_loader, result_correct, result_loss, scatter)
                     target.scatter_(10)
 
                 # sum up batch loss
-                test_loss += F.nll_loss(output, target, reduction='sum').item()
+                test_loss += loss_function(output,
+                                           target, reduction='sum').item()
                 # get the index of the max log-probability
                 pred = output.argmax(dim=1, keepdim=True)
                 correct += pred.eq(target.view_as(pred)).sum().item()
