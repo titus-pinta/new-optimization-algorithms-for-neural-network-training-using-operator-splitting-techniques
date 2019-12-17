@@ -42,6 +42,7 @@ def train_stoch(args, model, device, loss_function, train_loader, optimizer, epo
                 text, text_lengths = batch.text
                 predictions = model(text, text_lengths).squeeze(1)
                 loss = loss_function(predictions, batch.label)
+                num_loss += 1
                 loss.backward()
 
                 def correct_preds(preds, y):
@@ -98,6 +99,7 @@ def train_non_stoch(args, model, device, loss_function, train_loader, optimizer,
                 text, text_lengths = batch.text
                 predictions = model(text, text_lengths).squeeze(1)
                 loss = loss_function(predictions, batch.label)
+                num_loss += 1
                 loss.backward()
 
                 def correct_preds(preds, y):
