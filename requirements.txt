@@ -54,7 +54,7 @@ torchtext==0.4.0
 torchvision==0.4.2
 tqdm==4.28.1
 traitlets==4.3.3
-urllib3==1.25.7
+urllib3==1.25.8
 urlscan==0.9.4
 urwid==2.1.0
 virtualenv==16.7.9
